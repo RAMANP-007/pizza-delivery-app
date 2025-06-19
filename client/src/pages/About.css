@@ -1,0 +1,126 @@
+.about-page {
+  padding-top: 80px; /* Adjust for fixed header */
+}
+
+.about-hero {
+  background-color: var(--card-bg);
+  padding: 6rem 0;
+  text-align: center;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.about-hero h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+.about-content-section {
+  padding: 5rem 0;
+  background-color: var(--background-color);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-text h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* CTA Section */
+.cta-section {
+  background-color: var(--card-bg);
+  padding: 5rem 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+}
+
+.cta-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+  line-height: 1.7;
+}
+
+.btn-cta {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  padding: 1.5rem 3.5rem;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 123, 255, 0.3);
+  display: inline-block;
+}
+
+.btn-cta:hover {
+  background-color: #0056b3;
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .about-text {
+    order: 2;
+  }
+
+  .about-image {
+    order: 1;
+    margin-bottom: 3rem;
+  }
+
+  .about-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .about-text h2 {
+    font-size: 2rem;
+  }
+
+  .cta-content h2 {
+    font-size: 2.2rem;
+  }
+
+  .btn-cta {
+    font-size: 1.2rem;
+    padding: 1.2rem 2.5rem;
+  }
+}

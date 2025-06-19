@@ -1,0 +1,131 @@
+.signup-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+}
+
+.signup-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 700px;
+  margin: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.signup-image-section {
+  background: url('/Images/ChatGPT Image Jun 14, 2025, 11_34_44 PM.png') no-repeat center center/cover;
+}
+
+.signup-form-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.form-content {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.form-content h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-content p {
+  margin-bottom: 2.5rem;
+  color: #888;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.2);
+}
+
+.btn-signup {
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-signup:hover {
+  background-color: #e65a40;
+  transform: scale(1.02);
+}
+
+.login-prompt {
+  margin-top: 2rem;
+}
+
+.login-prompt a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .signup-container {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    min-height: auto;
+  }
+  .signup-image-section {
+    min-height: 300px;
+    border-radius: 20px 20px 0 0;
+  }
+  .signup-form-section {
+    padding: 2rem;
+  }
+}
+
