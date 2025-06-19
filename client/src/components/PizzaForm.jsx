@@ -1,39 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
+import { createPizza } from '../services/pizzaService';
 
 const PizzaForm = ({ pizzaToEdit, onFormSubmit, onCancel }) => {
-  const initialState = {
+  const getInitialState = () => ({
     name: '',
     description: '',
-    price: '',
-    base: 'Thin Crust',
-    sauce: 'Tomato',
-    cheese: 'Mozzarella',
-    veggies: [],
-  };
+    category: 'Classic',
+    variants: [{ name: 'Regular', price: '' }],
+  });
 
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState(getInitialState());
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const bases = ['Thin Crust', 'Thick Crust', 'Stuffed Crust'];
-  const sauces = ['Tomato', 'Pesto', 'White Garlic'];
-  const cheeses = ['Mozzarella', 'Cheddar', 'Parmesan', 'Vegan'];
-  const allVeggies = ['Onion', 'Capsicum', 'Mushroom', 'Olives', 'Corn', 'Tomato'];
+  const categories = ['Classic', 'Specialty', 'Vegetarian', 'Vegan'];
 
   useEffect(() => {
     if (pizzaToEdit) {
       setFormData({
         name: pizzaToEdit.name || '',
         description: pizzaToEdit.description || '',
-        price: pizzaToEdit.price || '',
-        base: pizzaToEdit.base || 'Thin Crust',
-        sauce: pizzaToEdit.sauce || 'Tomato',
-        cheese: pizzaToEdit.cheese || 'Mozzarella',
-        veggies: pizzaToEdit.veggies || [],
+        category: pizzaToEdit.category || 'Classic',
+        variants: pizzaToEdit.variants && pizzaToEdit.variants.length > 0 ? pizzaToEdit.variants : [{ name: 'Regular', price: '' }],
       });
     } else {
-      setFormData(initialState);
+      setFormData(getInitialState());
     }
   }, [pizzaToEdit]);
 
@@ -42,13 +34,23 @@ const PizzaForm = ({ pizzaToEdit, onFormSubmit, onCancel }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleVeggiesChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setFormData((prev) => ({ ...prev, veggies: [...prev.veggies, value] }));
-    } else {
-      setFormData((prev) => ({ ...prev, veggies: prev.veggies.filter((v) => v !== value) }));
-    }
+  const handleVariantChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedVariants = [...formData.variants];
+    updatedVariants[index] = { ...updatedVariants[index], [name]: value };
+    setFormData((prev) => ({ ...prev, variants: updatedVariants }));
+  };
+
+  const addVariant = () => {
+    setFormData((prev) => ({
+      ...prev,
+      variants: [...prev.variants, { name: '', price: '' }],
+    }));
+  };
+
+  const removeVariant = (index) => {
+    const updatedVariants = formData.variants.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, variants: updatedVariants }));
   };
 
   const handleImageChange = (e) => {
@@ -57,6 +59,10 @@ const PizzaForm = ({ pizzaToEdit, onFormSubmit, onCancel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.variants.some(v => !v.name || !v.price)) {
+      alert('Please fill out all variant names and prices.');
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -72,17 +78,17 @@ const PizzaForm = ({ pizzaToEdit, onFormSubmit, onCancel }) => {
       const pizzaPayload = { ...formData, image: imageUrl };
       
       if (pizzaToEdit) {
-        // Update pizza
-        await api.put(`/admin/pizza/${pizzaToEdit._id}`, pizzaPayload);
+        // NOTE: Update endpoint might need to be created/verified on the backend
+        await api.put(`/api/pizzas/${pizzaToEdit._id}`, pizzaPayload);
       } else {
-        // Add new pizza
-        await api.post('/admin/add-pizza', pizzaPayload);
+        await createPizza(pizzaPayload);
       }
 
       onFormSubmit();
     } catch (error) {
       console.error('Error submitting pizza form:', error);
-      alert('Failed to save pizza. Please check console for details.');
+      const errorMessage = error.response?.data?.message || 'Failed to save pizza. Please check console for details.';
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -93,61 +99,57 @@ const PizzaForm = ({ pizzaToEdit, onFormSubmit, onCancel }) => {
       <div className="modal-content">
         <h2>{pizzaToEdit ? 'Edit Pizza' : 'Add New Pizza'}</h2>
         <form onSubmit={handleSubmit} className="pizza-form">
-          {/* Form groups for name, description, price */}
+          {/* General Info */}
           <div className="form-group">
             <label>Pizza Name</label>
             <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Category</label>
+            <select name="category" value={formData.category} onChange={handleChange}>
+              {categories.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
           </div>
           <div className="form-group form-group-full">
             <label>Description</label>
             <textarea name="description" value={formData.description} onChange={handleChange} required />
           </div>
-          <div className="form-group">
-            <label>Price</label>
-            <input type="number" name="price" value={formData.price} onChange={handleChange} required />
-          </div>
-          {/* Selects for base, sauce, cheese */}
-          <div className="form-group">
-            <label>Base</label>
-            <select name="base" value={formData.base} onChange={handleChange}>
-              {bases.map(b => <option key={b} value={b}>{b}</option>)}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Sauce</label>
-            <select name="sauce" value={formData.sauce} onChange={handleChange}>
-              {sauces.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Cheese</label>
-            <select name="cheese" value={formData.cheese} onChange={handleChange}>
-              {cheeses.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
-          {/* Checkboxes for veggies */}
+
+          {/* Variants Section */}
           <div className="form-group form-group-full">
-            <label>Veggies</label>
-            <div className="checkbox-group">
-              {allVeggies.map(veg => (
-                <div key={veg} className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    id={veg}
-                    value={veg}
-                    checked={formData.veggies.includes(veg)}
-                    onChange={handleVeggiesChange}
-                  />
-                  <label htmlFor={veg}>{veg}</label>
-                </div>
-              ))}
-            </div>
+            <label>Sizes & Prices</label>
+            {formData.variants.map((variant, index) => (
+              <div key={index} className="variant-row">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Size Name (e.g., Regular)"
+                  value={variant.name}
+                  onChange={(e) => handleVariantChange(index, e)}
+                  required
+                />
+                <input
+                  type="number"
+                  name="price"
+                  placeholder="Price"
+                  value={variant.price}
+                  onChange={(e) => handleVariantChange(index, e)}
+                  required
+                />
+                {formData.variants.length > 1 && (
+                  <button type="button" onClick={() => removeVariant(index)} className="btn-remove-variant">Remove</button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={addVariant} className="btn-add-variant">Add Size</button>
           </div>
+
           {/* Image Upload */}
           <div className="form-group form-group-full">
             <label>Image</label>
-            <input type="file" onChange={handleImageChange} />
+            <input type="file" onChange={handleImageChange} accept="image/*" />
           </div>
+
           {/* Form Actions */}
           <div className="form-actions">
             <button type="button" onClick={onCancel} className="btn-cancel" disabled={isSubmitting}>Cancel</button>

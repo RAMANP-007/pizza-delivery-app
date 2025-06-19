@@ -41,29 +41,29 @@ const Contact = () => {
           </motion.div>
           <motion.div className="contact-info-container" variants={itemVariants}>
             <h2>Contact Information</h2>
-            <div className="info-item">
-              <FaMapMarkerAlt className="icon" />
-              <p>123 Pizza Street, Flavor Town, USA</p>
-            </div>
-            <div className="info-item">
-              <FaPhone className="icon" />
-              <p>(123) 456-7890</p>
-            </div>
-            <div className="info-item">
-              <FaEnvelope className="icon" />
-              <p>contact@pizzadelight.com</p>
+            <div className="info-grid">
+              <div className="info-card">
+                <FaMapMarkerAlt className="info-card-icon" />
+                <h3>Our Address</h3>
+                <p>123 Pizza Street, Flavor Town, USA</p>
+              </div>
+              <div className="info-card">
+                <FaPhone className="info-card-icon" />
+                <h3>Phone Number</h3>
+                <p>(123) 456-7890</p>
+              </div>
+              <div className="info-card">
+                <FaEnvelope className="info-card-icon" />
+                <h3>Email Address</h3>
+                <p>contact@pizzadelight.com</p>
+              </div>
             </div>
             <div className="map-container">
-              {/* Replace with a real map embed code */}
-              <iframe
-                src="\Images\ChatGPT Image Jun 14, 2025, 11_34_44 PM.png"
-                width="100%"
-                height="250"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                title="Google Maps Location"
-              ></iframe>
+              <img 
+                src="/Images/map-placeholder.png" 
+                alt="Our Location" 
+                style={{ width: '100%', height: '250px', border: 0, objectFit: 'cover' }}
+              />
             </div>
           </motion.div>
         </motion.div>

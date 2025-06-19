@@ -21,7 +21,7 @@ const Home = () => {
     fetchPizzas();
   }, []);
 
-  const featuredPizzas = pizzas.slice(0, 3);
+  const featuredPizzas = pizzas.filter(p => p.variants && p.variants.length > 0).slice(0, 3);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -69,11 +69,11 @@ const Home = () => {
             viewport={{ once: true }}
           >
             {featuredPizzas.map((pizza) => (
-              <motion.div key={pizza.id} className="pizza-card" variants={itemVariants}>
+              <motion.div key={pizza._id} className="pizza-card" variants={itemVariants}>
                 <img src={`http://localhost:5000/${pizza.image.replace(/\\/g, '/')}`} alt={pizza.name} />
                 <h3>{pizza.name}</h3>
                 <p>{pizza.description}</p>
-                <span>${pizza.price}</span>
+                <span>${pizza.variants[0].price}</span>
               </motion.div>
             ))}
           </motion.div>

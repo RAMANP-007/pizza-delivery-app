@@ -1,10 +1,14 @@
+/* === Corrected and Enhanced Contact Page CSS === */
+
 .contact-page {
   padding-top: 80px; /* Adjust for fixed header */
+  background-color: var(--background-color);
 }
 
 .contact-hero {
-  background-color: var(--background-color);
-  padding: 6rem 0;
+  /* Using a subtle gradient for a more modern feel */
+  background: linear-gradient(180deg, var(--background-color) 0%, var(--card-bg) 100%);
+  padding: 6rem 1rem;
   text-align: center;
   color: var(--text-color);
   border-bottom: 1px solid var(--border-color);
@@ -14,30 +18,40 @@
   font-family: 'Poppins', sans-serif;
   font-size: 3.5rem;
   font-weight: 700;
+  color: var(--heading-color);
 }
 
 .contact-hero p {
   font-size: 1.2rem;
   max-width: 600px;
   margin: 1rem auto 0;
+  color: var(--text-secondary);
 }
 
 .contact-content {
-  padding: 5rem 0;
+  padding: 5rem 1rem;
 }
 
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .contact-form-container, .contact-info-container {
   background-color: var(--card-bg);
   padding: 2.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form-container:hover, .contact-info-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
 }
 
 .contact-form-container h2, .contact-info-container h2 {
@@ -45,6 +59,7 @@
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
+  color: var(--heading-color);
 }
 
 .contact-form {
@@ -61,12 +76,13 @@
   font-size: 1rem;
   background-color: var(--input-bg);
   color: var(--text-color);
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .contact-form input:focus, .contact-form textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Enhanced focus ring */
 }
 
 .btn-submit {
@@ -78,45 +94,108 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
 }
 
 .btn-submit:hover {
   background-color: #0056b3; /* Darker shade of primary */
-  transform: scale(1.02);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
 }
 
-.info-item {
-  display: flex;
-  align-items: center;
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.1rem;
+  margin-bottom: 2rem;
 }
 
-.info-item .icon {
-  font-size: 1.5rem;
+.info-card {
+  background-color: var(--input-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+}
+
+.info-card-icon {
+  font-size: 2.5rem;
   color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.info-card h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--heading-color);
+}
+
+.info-card p {
+  font-size: 1rem;
+  color: var(--text-secondary);
 }
 
 .map-container {
   margin-top: 2rem;
   border-radius: 10px;
   overflow: hidden;
+  border: 1px solid var(--border-color);
+  background-color: #e9ecef; /* Placeholder color */
+}
+
+.map-container iframe {
+  display: block;
 }
 
 /* Responsive */
 @media (max-width: 992px) {
   .contact-layout {
     grid-template-columns: 1fr;
+    gap: 3rem;
   }
 }
 
 @media (max-width: 768px) {
+  .contact-hero {
+    padding: 4rem 1rem;
+  }
+  .contact-hero h1 {
+    font-size: 2.8rem;
+  }
+  .contact-content {
+    padding: 3rem 1rem;
+  }
   .contact-form-container, .contact-info-container {
     padding: 2rem;
   }
   .contact-form-container h2, .contact-info-container h2 {
     font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-hero h1 {
+    font-size: 2.2rem;
+  }
+  .contact-hero p {
+    font-size: 1rem;
+  }
+  .contact-form-container, .contact-info-container {
+    padding: 1.5rem;
+  }
+  .info-item {
+    gap: 1rem;
+    font-size: 1rem;
+  }
+  .info-item .icon {
+    font-size: 1.3rem;
   }
 }

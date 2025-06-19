@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 
-const pizzaSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    description: { type: String, required: true },
+const variantSchema = new mongoose.Schema({
+    name: { type: String, required: true }, // e.g., 'Small', 'Medium', 'Large'
     price: { type: Number, required: true },
-    base: { type: String, required: true },
-    sauce: { type: String, required: true },
-    cheese: { type: String, required: true },
-    veggies: [{ type: String }],
+});
+
+const pizzaSchema = new mongoose.Schema({
+    name: { type: String, required: true, unique: true },
+    variants: [variantSchema],
+    description: { type: String, required: true },
+    category: { type: String, required: true },
     image: { type: String, required: true },
 }, { timestamps: true });
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PizzaForm from '../components/PizzaForm';
 import PizzaList from '../components/PizzaList';
 import './AdminPanel.css';
 
 const Admin = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState('manage');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [pizzaToEdit, setPizzaToEdit] = useState(null);
@@ -22,8 +24,7 @@ const Admin = () => {
   const handleFormSubmit = () => {
     handleHideForm();
     alert('Pizza saved successfully!');
-    setRefreshKey(prevKey => prevKey + 1); // Trigger a refresh of the list
-    setView('manage');
+    navigate('/menu'); // Redirect to menu to see the new pizza
   };
 
   return (

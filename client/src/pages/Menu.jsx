@@ -13,10 +13,13 @@ const Menu = () => {
   useEffect(() => {
     const fetchPizzas = async () => {
       try {
+        console.log('Fetching pizzas on menu page...');
         const data = await getPizzas();
+        console.log('Pizzas received on frontend:', data); // Log the received data
         setPizzas(data);
         setLoading(false);
       } catch (err) {
+        console.error('Error fetching pizzas on frontend:', err); // Log any errors
         setError(err.message);
         setLoading(false);
       }
@@ -26,6 +29,10 @@ const Menu = () => {
   }, []);
 
   const handleAddToCart = (pizza) => {
+    if (!pizza.variants || pizza.variants.length === 0) {
+      alert('This pizza has no variants available.');
+      return;
+    }
     // For simplicity, add the first variant to the cart with quantity 1
     const cartItem = {
       _id: pizza._id, // Use a unique ID for the cart item
@@ -70,9 +77,11 @@ const Menu = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {pizzas.map((pizza) => (
+            {pizzas
+            .filter(pizza => pizza.variants && pizza.variants.length > 0)
+            .map((pizza) => (
               <motion.div key={pizza._id} className="menu-item-card" variants={itemVariants}>
-                <img src={pizza.image} alt={pizza.name} />
+                <img src={`http://localhost:5000/${pizza.image.replace(/\\/g, '/')}`} alt={pizza.name} />
                 <div className="item-details">
                   <h3>{pizza.name}</h3>
                   <p>{pizza.description}</p>

@@ -47,7 +47,7 @@ const BuildPizza = () => {
         <h1>Build Your Masterpiece</h1>
         <div className="builder-layout">
           <div className="pizza-visualizer">
-            <motion.img src="/images/pizza-base.png" alt="Pizza Base" className="pizza-base" layout />
+            <motion.img src="Images\pizza-base.jpg" alt="Pizza Base" className="pizza-base" layout />
             <AnimatePresence>
               {selectedToppings.map((topping) => (
                 <motion.img

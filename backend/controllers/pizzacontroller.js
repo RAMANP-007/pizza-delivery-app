@@ -3,8 +3,18 @@ const Pizza = require('../models/Pizza');
 const asyncHandler = require('express-async-handler');
 
 const getPizzas = asyncHandler(async (req, res) => {
-    const pizzas = await Pizza.find({});
-    res.json(pizzas);
+    try {
+        console.log('Attempting to fetch pizzas...');
+        const pizzas = await Pizza.find({});
+        console.log(`Found ${pizzas.length} pizzas.`);
+        if (pizzas.length === 0) {
+            console.log('The Pizza collection is empty.');
+        }
+        res.json(pizzas);
+    } catch (error) {
+        console.error('Error in getPizzas controller:', error);
+        res.status(500).json({ message: 'Failed to fetch pizzas due to a server error.' });
+    }
 });
 
 const getPizzaOptions = asyncHandler(async (req, res) => {
